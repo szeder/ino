@@ -14,10 +14,16 @@ _ino()
 
 	case "${words[1]}" in
 	build)
-		COMPREPLY=( $( compgen -W "--help --board-model
-			--arduino-dist --make --cc --cxx --ar --objcopy
-			--cppflags --cflags --cxxflags --ldflags
-			--verbose" -- "$cur" ) )
+		case "$prev" in
+		--arduino-dist|--make|--cc|--cxx|--ar|--objcopy)
+			;;
+		*)
+			COMPREPLY=( $( compgen -W "--help --board-model
+				--arduino-dist --make --cc --cxx --ar --objcopy
+				--cppflags --cflags --cxxflags --ldflags
+				--verbose" -- "$cur" ) )
+			;;
+		esac
 		;;
 	clean)
 		COMPREPLY=( $( compgen -W "--help" -- "$cur" ) )
@@ -26,20 +32,44 @@ _ino()
 		COMPREPLY=( $( compgen -W "--help --template" -- "$cur" ) )
 		;;
 	list-models)
-		COMPREPLY=( $( compgen -W "--help --arduino-dist" \
-			-- "$cur" ) )
+		case "$prev" in
+		--arduino-dist)
+			;;
+		*)
+			COMPREPLY=( $( compgen -W "--help --arduino-dist" \
+				-- "$cur" ) )
+			;;
+		esac
 		;;
 	preproc)
-		COMPREPLY=( $( compgen -W "--help --arduino-dist
-			--output" -- "$cur" ) )
+		case "$prev" in
+		--arduino-dist|--output)
+			;;
+		*)
+			COMPREPLY=( $( compgen -W "--help --arduino-dist
+				--output" -- "$cur" ) )
+			;;
+		esac
 		;;
 	serial)
-		COMPREPLY=( $( compgen -W "--help --serial-port
-			--baud-rate" -- "$cur" ) )
+		case "$prev" in
+		--serial-port)
+			;;
+		*)
+			COMPREPLY=( $( compgen -W "--help --serial-port
+				--baud-rate" -- "$cur" ) )
+			;;
+		esac
 		;;
 	upload)
-		COMPREPLY=( $( compgen -W "--help --serial-port
-			--board-model --arduino-dist" -- "$cur" ) )
+		case "$prev" in
+		--arduino-dist|--serial-port)
+			;;
+		*)
+			COMPREPLY=( $( compgen -W "--help --serial-port
+				--board-model --arduino-dist" -- "$cur" ) )
+			;;
+		esac
 		;;
 	esac
 } &&
