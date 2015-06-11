@@ -9,6 +9,38 @@ _ino()
 	if [ $cword = 1 ]; then
 		COMPREPLY=( $( compgen -W "build clean init list-models
 			preproc serial upload --help" -- "$cur" ) )
+		return
 	fi
+
+	case "${words[1]}" in
+	build)
+		COMPREPLY=( $( compgen -W "--help --board-model
+			--arduino-dist --make --cc --cxx --ar --objcopy
+			--cppflags --cflags --cxxflags --ldflags
+			--verbose" -- "$cur" ) )
+		;;
+	clean)
+		COMPREPLY=( $( compgen -W "--help" -- "$cur" ) )
+		;;
+	init)
+		COMPREPLY=( $( compgen -W "--help --template" -- "$cur" ) )
+		;;
+	list-models)
+		COMPREPLY=( $( compgen -W "--help --arduino-dist" \
+			-- "$cur" ) )
+		;;
+	preproc)
+		COMPREPLY=( $( compgen -W "--help --arduino-dist
+			--output" -- "$cur" ) )
+		;;
+	serial)
+		COMPREPLY=( $( compgen -W "--help --serial-port
+			--baud-rate" -- "$cur" ) )
+		;;
+	upload)
+		COMPREPLY=( $( compgen -W "--help --serial-port
+			--board-model --arduino-dist" -- "$cur" ) )
+		;;
+	esac
 } &&
 complete -o bashdefault -o default -F _ino ino
