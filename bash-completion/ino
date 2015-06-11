@@ -1,0 +1,14 @@
+# bash completion for ino, a command line toolkit for Arduino
+
+_ino()
+{
+	local cur prev words cword
+
+	_init_completion -n : || return
+
+	if [ $cword = 1 ]; then
+		COMPREPLY=( $( compgen -W "build clean init list-models
+			preproc serial upload --help" -- "$cur" ) )
+	fi
+} &&
+complete -o bashdefault -o default -F _ino ino
