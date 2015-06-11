@@ -1,4 +1,14 @@
 # bash completion for ino, a command line toolkit for Arduino
+#
+# Depending on your system, privileges and preferences you might want to
+# copy this file either
+#
+#  * to the standard /usr/share/bash-completion/completions directory to be
+#    sourced on demand
+#  * to the legacy /etc/bash_completion.d directory to be sourced
+#    automatically for every interactive shell
+#  * to wherever you please, or not copy at all, and source it yourself from
+#    your .bashrc
 
 _ino_complete_board_models()
 {
