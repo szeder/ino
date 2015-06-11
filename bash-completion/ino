@@ -1,5 +1,14 @@
 # bash completion for ino, a command line toolkit for Arduino
 
+_ino_complete_board_models()
+{
+	local board_models
+
+	board_models="$(ino list-models 2>/dev/null | sed -n -e 's/: .*//p')"
+
+	COMPREPLY=( $( compgen -W "$board_models" -- "$cur" ) )
+}
+
 _ino()
 {
 	local cur prev words cword
@@ -16,6 +25,9 @@ _ino()
 	build)
 		case "$prev" in
 		--arduino-dist|--make|--cc|--cxx|--ar|--objcopy)
+			;;
+		--board-model)
+			_ino_complete_board_models
 			;;
 		*)
 			COMPREPLY=( $( compgen -W "--help --board-model
@@ -64,6 +76,9 @@ _ino()
 	upload)
 		case "$prev" in
 		--arduino-dist|--serial-port)
+			;;
+		--board-model)
+			_ino_complete_board_models
 			;;
 		*)
 			COMPREPLY=( $( compgen -W "--help --serial-port
