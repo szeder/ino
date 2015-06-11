@@ -2,9 +2,24 @@
 
 _ino_complete_board_models()
 {
-	local board_models
+	local c=$cword dist_path list board_models
 
-	board_models="$(ino list-models 2>/dev/null | sed -n -e 's/: .*//p')"
+	while [ $c -ge 2 ]; do
+		if [ "${words[c]}" = "--arduino-dist" ]; then
+			dist_path="${words[++c]}"
+			break
+		fi
+		((c--))
+	done
+
+	list="$(ino list-models ${dist_path:+--arduino-dist "$dist_path"} 2>/dev/null)"
+	if [ $? != 0 ]; then
+		# 'ino list-models' failed, probably because of bogus
+		# '--arduino-dist <path>' given on the command line.
+		# Don't offer anything for completion.
+		return
+	fi
+	board_models="$(echo "$list" | sed -n -e 's/: .*//p')"
 
 	COMPREPLY=( $( compgen -W "$board_models" -- "$cur" ) )
 }
